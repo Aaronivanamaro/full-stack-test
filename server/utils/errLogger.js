@@ -78,5 +78,6 @@ const mockError = async (errors, seconds) => {
   console.log(errorsArchive);
 };
 
-// mockError(60, 130);
+// mockError(20, 50);
+
 module.exports = mockError;
