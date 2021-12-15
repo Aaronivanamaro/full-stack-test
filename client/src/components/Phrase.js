@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import { Send } from "@mui/icons-material";
-import { Container, Button, Typography, TextField } from "@mui/material";
 import { isValid } from "../utils/functions";
 import { ZooContext } from "../context/ZooContextProvider";
 import { NewZooContext } from "../context/NewZooContextProvider";
@@ -13,50 +12,71 @@ const Phrase = () => {
     const { dataResponse, setDataRequest, isLoading, isError } = useFetchData('post', 'http://localhost:8000/api/zoo');
 
     const [phrase, setPhrase] = useState('');
+    const [phraseError, setPhraseError] = useState(false);
+    const [createBtn, setCreateBtn] = useState(false);
 
-    const { newZoo, setNewZoo, newAnimalsArr } = useContext(ZooContext);
+    const { newZoo, setNewZoo, setNewAnimalsArr } = useContext(ZooContext);
     const { setData, setError, setLoading } = useContext(NewZooContext);
 
-    const handleSubmit = (e) => {
+    const sendData = (e) => {
         e.preventDefault();
-        setNewZoo(prevState => [...prevState, newAnimalsArr, phrase]);
+        if (isValid(phrase)) {
+            setNewZoo(prevState => [...prevState, phrase]);
+            setCreateBtn(true);
+        } else {
+            setPhraseError(true);
+        }
+    }
+
+    function createNewZoo(e) {
+        e.preventDefault();
         setDataRequest(newZoo);
+    }
+
+    useEffect(() => {
         if (isValid(dataResponse)) {
+            console.log('I got here!');
             setData(dataResponse);
             setError(isError);
             setLoading(isLoading);
+            setNewZoo([]);
+            setNewAnimalsArr([]);
             navigate('/zoo/animals');
-        }    
     }
-    
+    }, [dataResponse])
+
     return (
-        <Container maxWidth="sm" sx={{ pt: 2 }}>
-            <Typography variant="h4" gutterBottom component="h2">
+        <div className="main-container zoo-phrase">
+            <h2 className="main-title">
                 Create a New Zoo
-            </Typography>
+            </h2>
+            <p className="description-text">Write a sentence that each zoo animal will say!</p>
 
-            <form noValidate onSubmit={handleSubmit}>
+            <form noValidate>
 
-                <TextField
+                <input
+                    className={phraseError ? 'input-field input-yellow error' : 'input-field input-yellow'}
                     onChange={e => setPhrase(e.target.value)}
-                    label="Phrase"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    margin="normal"
+                    onClick={() => setPhraseError(false)}
+                    placeholder="Sentence..."
                 />
 
-                <Button
-                    type="submit"
-                    variant="contained"
-                    endIcon={<Send />}
-                    sx={{ my: 1 }} >
-                    Create Zoo
-                </Button>
+                {createBtn ?
+                    <button className="form-button" style={{ backgroundColor: "green" }}
+                            onClick={createNewZoo}>
+                        <span>Create Zoo</span>
+                        <Send fontSize="18px" />
+                    </button>
+                    : <button className="form-button" style={{ backgroundColor: "#bda106" }}
+                              onClick={sendData}>
+                        <span>Send Data</span>
+                        <Send fontSize="18px" />
+                    </button>
+                }
 
             </form>
 
-        </Container>
+        </div>
     );
 }
 
