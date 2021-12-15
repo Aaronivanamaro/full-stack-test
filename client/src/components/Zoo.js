@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
 import { isValid } from '../utils/functions';
-import { Button, TextField } from "@mui/material";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useNavigate } from 'react-router-dom'
 import { ZooContext } from '../context/ZooContextProvider';
@@ -29,30 +28,25 @@ function Zoo() {
   }
 
   return (
-    <section className="zoo">
+    <section className="main-container zoo-name">
       <div>
 
-        <h2>Welcome to the Zoo</h2>
-        <p>Choose a name and create your own zoo!</p>
+        <h2 className="main-title">Zoo Generator</h2>
+        <p className="description-text">Choose a name and create your own zoo!</p>
 
         <form noValidate onSubmit={handleSubmit}>
 
-          <TextField
-            onChange={e => setZooName(e.target.value)}
-            label="Zoo Name"
-            variant="outlined"
-            required
-            fullWidth
-            margin="normal"
-            error={zooNameError}
+          <input
+            className={ zooNameError ? 'input-field input-green error' : 'input-field input-green' }
+            onChange={ e => setZooName(e.target.value) }
+            onClick={ () => setZooNameError(false) }
+            placeholder="Zoo Name"
           />
           
-          <Button
-            type="submit" variant="contained"
-            endIcon={<ArrowForwardIosIcon />}
-            sx={{ my: 1 }}>
-            Next
-          </Button>
+          <button className="form-button" style={{ backgroundColor: "#235221" }}>
+            <span>Next</span>
+            <ArrowForwardIosIcon fontSize="18px"/>
+          </button>
         
         </form>
       
