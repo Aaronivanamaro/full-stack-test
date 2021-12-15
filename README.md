@@ -14,6 +14,7 @@ Though this is in a single repository, it consists of two different apps. Theref
 
 # Bugs:
 * This focus on client-server communication and some specific functionalities led to some bugs in the frontend and relatively poor styles, because of the short time I had to develop this application. Two of the challenges (zoo generator with different animals that share speak method, and url parser) were coded successfully. However, the error logger has some particularities. It works pretty well with some values, but if too many errors (let's say 60) occur in a short period of time (let's say 130 seconds) it starts to fail. I feel I've been near but I couldn't create an infallible logger that satisfies the three main conditions (+ 10 errors, -60 seconds, no more than 1 notification per minute). This one is the one I found more challenging. In addition to that, it is possible that requesting the creation of a new zoo with the specified parameters has some frontend bugs. However, the logic behind the methods and classes works pretty well.
+### [ ---> Check new branch with some updates on this <--- ] ###
 
 # Use Instructions
 * ZOO GENERATOR: You need to execute both the backend server and the frontend client. Once executing, the default page is Home. Go to the navbar and click "ZOO". Then, you'll be redirected to a new form. Type the name of the zoo and then press "NEXT".
